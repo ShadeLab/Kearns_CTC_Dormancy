@@ -41,8 +41,7 @@ summary(S16_aov)
 
 # Fig. 1B threshold activity
 ```
-#read in unrarefied data
-setwd("/Users/patty/Dropbox/R/bean_nitrogen_drought/")
+#read in unrarefied data from QIIME (with taxonomy)
 library(readr)
 bean_table <- read_delim("otu_table_tax_filt.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
@@ -52,7 +51,7 @@ bean_taxonomy<-bean_table[,grep('taxonomy', names(bean_table))]
 bean_table<-bean_table[,c(-1)]
 bean_table<-bean_table[,c(-49)]
 
-#rarefy data
+#rarefy data at lowest depth: 37123
 library(vegan)
 bean_table_t<-t(bean_table)
 bean_table2<-rrarefy(bean_table_t, sample=37123)
@@ -68,7 +67,7 @@ bean_dna<-data.frame(bean_table[,-grep('cDNA', names(bean_table))])
 bean_rna<-bean_rna[,order(names(bean_rna))]
 bean_dna<-bean_dna[,order(names(bean_dna))]
 
-#function
+#function for calculating doramncy
 dormancy_calc<-function(S16rRNA, S16rRNAG, num){
   #S16rRNA is a table of 16S rRNA data
   #S16rRNAG is a table of 16S rRNA gene data
